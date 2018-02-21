@@ -24,7 +24,6 @@ namespace GameOfLife
         {
             InitializeComponent();
             DynamicGrid.ShowGridLines = true;
-            DynamicGrid.Background = new SolidColorBrush(Colors.LightSteelBlue);
 
         }
 

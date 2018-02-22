@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Drawing;
 namespace GameOfLife
 {
     /// <summary>
@@ -20,6 +20,9 @@ namespace GameOfLife
     /// </summary>
     public partial class MainWindow : Window
     {
+        int numberOfRows;
+        int numberOfColumns;
+        List<Cell> cells = new List<Cell>();
         public MainWindow()
         {
             InitializeComponent();
@@ -30,30 +33,50 @@ namespace GameOfLife
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
 
+            foreach (Cell c in cells)
+            {
+                Grid.SetRow(c.CellAppearance, c.Row);
+                Grid.SetColumn(c.CellAppearance, c.Column);
+                DynamicGrid.Children.Add(c.CellAppearance);
+            }
+                 
+            
         }
 
-         private void CreateDynamicWPFGrid(int numberColumns, int numberRows)
-      
-         {
+        private void CreateDynamicWPFGrid(int numberColumns, int numberRows)
+        {
             DynamicGrid.ColumnDefinitions.Clear();
             DynamicGrid.RowDefinitions.Clear();
 
-             // Create Columns
+            // Create Columns
             for (int i = 0; i < numberColumns; i++) {
                 DynamicGrid.ColumnDefinitions.Add(new ColumnDefinition());
-             }
-             // Create Rows
-             for (int i = 0; i < numberRows; i++) {
-                 DynamicGrid.RowDefinitions.Add(new RowDefinition());
-             }
-         }
+            }
+            // Create Rows
+            for (int i = 0; i < numberRows; i++) {
+                DynamicGrid.RowDefinitions.Add(new RowDefinition());
+            }
+
+            int numberOfCells = numberColumns * numberRows;
+
+                for (int j = 0; j < numberColumns; j++) {
+                    for (int k = 0; k < numberRows; k++) {
+                        cells.Add(new Cell(true, k, j));
+                    }
+                }
+            
+
+        }
 
         private void gridButton_Click(object sender, RoutedEventArgs e)
         {
-            int numberOfRows = Convert.ToInt16(rowTextBox.Text);
-            int numberOfColumns = Convert.ToInt16(columnTextBox.Text);
+            numberOfRows = Convert.ToInt16(rowTextBox.Text);
+            numberOfColumns = Convert.ToInt16(columnTextBox.Text);
 
             CreateDynamicWPFGrid(numberOfColumns, numberOfRows);
         }
+
     }
-}
+        
+    }
+

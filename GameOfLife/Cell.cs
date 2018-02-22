@@ -78,6 +78,7 @@ namespace GameOfLife
             else
                 this.cellAppearance.Background = new SolidColorBrush(Colors.Black);
 
+            
         }
 
         public void changeCellToAlive() {

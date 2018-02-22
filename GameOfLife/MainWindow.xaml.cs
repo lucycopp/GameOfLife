@@ -33,14 +33,8 @@ namespace GameOfLife
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
 
-            foreach (Cell c in cells)
-            {
-                Grid.SetRow(c.CellAppearance, c.Row);
-                Grid.SetColumn(c.CellAppearance, c.Column);
-                DynamicGrid.Children.Add(c.CellAppearance);
-            }
-                 
             
+
         }
 
         private void CreateDynamicWPFGrid(int numberColumns, int numberRows)
@@ -49,22 +43,34 @@ namespace GameOfLife
             DynamicGrid.RowDefinitions.Clear();
 
             // Create Columns
-            for (int i = 0; i < numberColumns; i++) {
+            for (int i = 0; i < numberColumns; i++)
+            {
                 DynamicGrid.ColumnDefinitions.Add(new ColumnDefinition());
             }
             // Create Rows
-            for (int i = 0; i < numberRows; i++) {
+            for (int i = 0; i < numberRows; i++)
+            {
                 DynamicGrid.RowDefinitions.Add(new RowDefinition());
             }
 
-            int numberOfCells = numberColumns * numberRows;
 
-                for (int j = 0; j < numberColumns; j++) {
-                    for (int k = 0; k < numberRows; k++) {
-                        cells.Add(new Cell(true, k, j));
-                    }
+
+            for (int j = 0; j < numberColumns; j++)
+            {
+                for (int k = 0; k < numberRows; k++)
+                {
+                    cells.Add(new Cell(true, k, j));
                 }
-            
+            }
+
+            foreach (Cell c in cells)
+            {
+                Grid.SetRow(c.CellAppearance, c.Row);
+                Grid.SetColumn(c.CellAppearance, c.Column);
+                c.CellAppearance.MouseDown += delegate { cellClicked(c); };
+                DynamicGrid.Children.Add(c.CellAppearance);
+            }
+
 
         }
 
@@ -76,7 +82,17 @@ namespace GameOfLife
             CreateDynamicWPFGrid(numberOfColumns, numberOfRows);
         }
 
+        private static void cellClicked(Cell mCell)
+        {
+            if (mCell.Alive)
+                mCell.changeCellToDead();
+            //dynamic grid children add?
+            else
+                mCell.changeCellToAlive();
+
+        }
+
     }
-        
-    }
+
+}
 

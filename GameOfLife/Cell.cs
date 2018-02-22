@@ -73,7 +73,7 @@ namespace GameOfLife
             this.row = m_row;
             this.column = m_column;
             this.cellAppearance = new Label();
-            if (m_alive)
+            if (!m_alive)
                 this.cellAppearance.Background = new SolidColorBrush(Colors.White);
             else
                 this.cellAppearance.Background = new SolidColorBrush(Colors.Black);
@@ -83,12 +83,12 @@ namespace GameOfLife
 
         public void changeCellToAlive() {
             this.alive = true;
-            this.cellAppearance.Background = new SolidColorBrush(Colors.White);
+            this.cellAppearance.Background = new SolidColorBrush(Colors.Black);
         }
 
         public void changeCellToDead() {
             this.alive = false;
-            this.cellAppearance.Background = new SolidColorBrush(Colors.Black);
+            this.cellAppearance.Background = new SolidColorBrush(Colors.White);
         }
     }
 }

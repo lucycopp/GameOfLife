@@ -32,8 +32,8 @@ namespace GameOfLife
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
+            iteration(cells);
 
-            
 
         }
 
@@ -59,7 +59,7 @@ namespace GameOfLife
             {
                 for (int k = 0; k < numberRows; k++)
                 {
-                    cells.Add(new Cell(true, k, j));
+                    cells.Add(new Cell(false, k, j));
                 }
             }
 
@@ -70,6 +70,9 @@ namespace GameOfLife
                 c.CellAppearance.MouseDown += delegate { cellClicked(c); };
                 DynamicGrid.Children.Add(c.CellAppearance);
             }
+
+            numberOfRows--;
+            numberOfColumns--;
 
 
         }
@@ -92,7 +95,74 @@ namespace GameOfLife
 
         }
 
+        private Cell findCell(int row, int column)
+        {
+
+            foreach (Cell c in cells)
+            {
+                if (c.Row == row && c.Column == column)
+                    return c;
+            }
+            return null;
+
+        }
+
+        private void iteration(List<Cell> mCells)
+        {
+            foreach (Cell c in mCells)
+            {
+                int numberOfNeighbours = 0;
+                int cellColumn = c.Column;
+                int cellRow = c.Row;
+
+                //column and row 
+                int leftColumn = cellColumn - 1;
+                int topRow = cellRow - 1;
+                int rightColumn = cellColumn + 1;
+                int bottomRow = cellRow + 1;
+
+                //if a normal cell not a boundary
+                if (cellRow != 0 && cellRow != numberOfRows && cellColumn != 0 && cellColumn != numberOfColumns)
+                {
+                    //check top left
+                    if (findCell(topRow, leftColumn).Alive) numberOfNeighbours++;
+                    //check top middle
+                    if (findCell(topRow, cellColumn).Alive) numberOfNeighbours++;
+                    //check top left 
+                    if (findCell(topRow, rightColumn).Alive) numberOfNeighbours++;
+
+                    //check left middle
+                    if (findCell(cellRow, leftColumn).Alive) numberOfNeighbours++;
+                    //check right middle
+                    if (findCell(cellRow, rightColumn).Alive) numberOfNeighbours++;
+
+                    //check bottom left
+                    if (findCell(bottomRow, leftColumn).Alive) numberOfNeighbours++;
+                    //check bottom middle
+                    if (findCell(bottomRow, cellColumn).Alive) numberOfNeighbours++;
+                    //check bottom right 
+                    if (findCell(bottomRow, rightColumn).Alive) numberOfNeighbours++;
+                }
+               //sort boundarys
+                if (c.Alive)
+                {
+                    if (numberOfNeighbours > 2 || numberOfNeighbours > 3)
+                        c.changeCellToDead();
+                } else
+                {
+                    if (numberOfNeighbours == 3)
+                        c.changeCellToAlive();
+                }
+              
+                }
+            }
+        }
+
+
+
     }
 
-}
+
+
+
 

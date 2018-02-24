@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
+using System.Timers;
+
 namespace GameOfLife
 {
     /// <summary>
@@ -23,25 +25,31 @@ namespace GameOfLife
         int numberOfRows;
         int numberOfColumns;
         List<Cell> cells = new List<Cell>();
+        Timer mTimer;
         public MainWindow()
         {
             InitializeComponent();
             DynamicGrid.ShowGridLines = true;
+            CreateDynamicWPFGrid(60, 30);
 
         }
 
         private void playButton_Click(object sender, RoutedEventArgs e)
         {
-            iteration(cells);
-
-
+            mTimer = new Timer(1000);
+            mTimer.Elapsed += delegate { iteration(cells); };
+            mTimer.Start();
         }
 
         private void CreateDynamicWPFGrid(int numberColumns, int numberRows)
         {
             DynamicGrid.ColumnDefinitions.Clear();
             DynamicGrid.RowDefinitions.Clear();
+            DynamicGrid.Children.Clear();
+            cells.Clear();
 
+            numberOfColumns = numberColumns - 1;
+            numberOfRows = numberRows - 1;
             // Create Columns
             for (int i = 0; i < numberColumns; i++)
             {
@@ -52,8 +60,6 @@ namespace GameOfLife
             {
                 DynamicGrid.RowDefinitions.Add(new RowDefinition());
             }
-
-
 
             for (int j = 0; j < numberColumns; j++)
             {
@@ -71,10 +77,7 @@ namespace GameOfLife
                 DynamicGrid.Children.Add(c.CellAppearance);
             }
 
-            numberOfRows--;
-            numberOfColumns--;
-
-
+        
         }
 
         private void gridButton_Click(object sender, RoutedEventArgs e)
@@ -89,7 +92,6 @@ namespace GameOfLife
         {
             if (mCell.Alive)
                 mCell.changeCellToDead();
-            //dynamic grid children add?
             else
                 mCell.changeCellToAlive();
 
@@ -170,15 +172,37 @@ namespace GameOfLife
                 if (c.ChangeFlag)
                 {
                     if (c.Alive)
-                        c.changeCellToDead();
+                    {
+                        if (c.CellAppearance.Dispatcher.CheckAccess())
+                            c.changeCellToDead();
+                        else
+                            this.Dispatcher.Invoke(() => { c.changeCellToDead(); });
+                    }
                     else
-                        c.changeCellToAlive();
-
+                    {
+                        if (c.CellAppearance.Dispatcher.CheckAccess())
+                            c.changeCellToAlive();
+                        else
+                            this.Dispatcher.Invoke(() => { c.changeCellToAlive(); });
+                    }
                     c.ChangeFlag = false;
                 }
+                
             }
             }
+
+        private void rowTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(rowTextBox.Text != "")
+                columnTextBox.Text = Math.Ceiling(Convert.ToDouble(rowTextBox.Text) * 2).ToString();
         }
+
+        private void columnTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (columnTextBox.Text != "")
+                rowTextBox.Text = Math.Ceiling(Convert.ToDouble(columnTextBox.Text) / 2).ToString();
+        }
+    }
 
 
 

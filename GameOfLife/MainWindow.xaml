@@ -34,8 +34,8 @@
 			<Button x:Name="gridButton" Grid.Column="2" Content="Create Grid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="31.4,35,0,0" Grid.RowSpan="2" Height="29" Click="gridButton_Click"/>
 			<Label x:Name="rowLabel" Content="Number of Rows" Grid.Row ="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
 			<Label x:Name="columnLabel" Content="Number of Columns" Grid.Row="1" Grid.Column="0"/>
-			<TextBox x:Name="rowTextBox" Grid.Row="0" Grid.Column="1" Background="#FFEDEAEA" Grid.ColumnSpan="2" Height="50" Margin="0.2,0,132.4,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-			<TextBox x:Name="columnTextBox" Grid.Row="1" Grid.Column="1" Background="#FFEDEAEA"/>
+			<TextBox x:Name="rowTextBox" Grid.Row="0" Grid.Column="1" Background="#FFEDEAEA" Grid.ColumnSpan="2" Height="50" Margin="0.2,0,132.4,0" Grid.RowSpan="2" VerticalAlignment="Top" TextChanged="rowTextBox_TextChanged"/>
+			<TextBox x:Name="columnTextBox" Grid.Row="1" Grid.Column="1" Background="#FFEDEAEA" TextChanged="columnTextBox_TextChanged"/>
 			<Button x:Name="playButton" Content="Play" Grid.Column="4" HorizontalAlignment="Left" Margin="28.6,13,0,0" VerticalAlignment="Top" Width="76" Click="playButton_Click"/>
 
 		</Grid>

@@ -121,40 +121,62 @@ namespace GameOfLife
                 int rightColumn = cellColumn + 1;
                 int bottomRow = cellRow + 1;
 
-                //if a normal cell not a boundary
-                if (cellRow != 0 && cellRow != numberOfRows && cellColumn != 0 && cellColumn != numberOfColumns)
+
+                if(topRow >= 0) //if top row exists
                 {
-                    //check top left
-                    if (findCell(topRow, leftColumn).Alive) numberOfNeighbours++;
-                    //check top middle
+                    //check top row middle
                     if (findCell(topRow, cellColumn).Alive) numberOfNeighbours++;
-                    //check top left 
-                    if (findCell(topRow, rightColumn).Alive) numberOfNeighbours++;
 
-                    //check left middle
-                    if (findCell(cellRow, leftColumn).Alive) numberOfNeighbours++;
-                    //check right middle
-                    if (findCell(cellRow, rightColumn).Alive) numberOfNeighbours++;
+                    //if left column exists, check top left 
+                    if (leftColumn >= 0) if (findCell(topRow, leftColumn).Alive) numberOfNeighbours++;
 
-                    //check bottom left
-                    if (findCell(bottomRow, leftColumn).Alive) numberOfNeighbours++;
-                    //check bottom middle
-                    if (findCell(bottomRow, cellColumn).Alive) numberOfNeighbours++;
-                    //check bottom right 
-                    if (findCell(bottomRow, rightColumn).Alive) numberOfNeighbours++;
+                    //if right column exists, check top right
+                    if (rightColumn <= numberOfColumns) if (findCell(topRow, rightColumn).Alive) numberOfNeighbours++;
                 }
+
+                if(bottomRow <= numberOfRows)
+                {
+                    //check bottom row middle
+                    if (findCell(bottomRow, cellColumn).Alive) numberOfNeighbours++;
+
+                    //if left column exists, check bottom left
+                    if (leftColumn >= 0) if (findCell(bottomRow, leftColumn).Alive) numberOfNeighbours++;
+
+                    //if right column exists, check bottom right
+                    if (rightColumn <= numberOfColumns) if (findCell(bottomRow, rightColumn).Alive) numberOfNeighbours++;
+                }
+
+                //if left column exists check left middle
+                if (leftColumn >= 0) if (findCell(cellRow, leftColumn).Alive) numberOfNeighbours++;
+                //if right column exisst check right middle
+                if (rightColumn <= numberOfColumns) if (findCell(cellRow, rightColumn).Alive) numberOfNeighbours++;
+
+              
                //sort boundarys
                 if (c.Alive)
                 {
-                    if (numberOfNeighbours > 2 || numberOfNeighbours > 3)
-                        c.changeCellToDead();
+                    if (numberOfNeighbours < 2 || numberOfNeighbours > 3)
+                        c.ChangeFlag = true;
                 } else
                 {
                     if (numberOfNeighbours == 3)
-                        c.changeCellToAlive();
+                        c.ChangeFlag = true;
                 }
               
                 }
+
+            foreach(Cell c in cells)
+            {
+                if (c.ChangeFlag)
+                {
+                    if (c.Alive)
+                        c.changeCellToDead();
+                    else
+                        c.changeCellToAlive();
+
+                    c.ChangeFlag = false;
+                }
+            }
             }
         }
 

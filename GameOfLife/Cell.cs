@@ -14,6 +14,7 @@ namespace GameOfLife
         private int row;
         private int column;
         private Label cellAppearance;
+        private bool changeFlag;
 
         public bool Alive
         {
@@ -67,6 +68,19 @@ namespace GameOfLife
             }
         }
 
+        public bool ChangeFlag
+        {
+            get
+            {
+                return changeFlag;
+            }
+
+            set
+            {
+                changeFlag = value;
+            }
+        }
+
         public Cell(bool m_alive, int m_row, int m_column)
         {
             this.alive = m_alive;
@@ -77,7 +91,7 @@ namespace GameOfLife
                 this.cellAppearance.Background = new SolidColorBrush(Colors.White);
             else
                 this.cellAppearance.Background = new SolidColorBrush(Colors.Black);
-
+            this.changeFlag = false;
             
         }
 

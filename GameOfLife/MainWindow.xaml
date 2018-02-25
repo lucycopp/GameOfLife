@@ -31,13 +31,19 @@
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Button x:Name="gridButton" Grid.Column="2" Content="Create Grid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="31.4,35,0,0" Grid.RowSpan="2" Height="29" Click="gridButton_Click"/>
-			<Label x:Name="rowLabel" Content="Number of Rows" Grid.Row ="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-			<Label x:Name="columnLabel" Content="Number of Columns" Grid.Row="1" Grid.Column="0"/>
-			<TextBox x:Name="rowTextBox" Grid.Row="0" Grid.Column="1" Background="#FFEDEAEA" Grid.ColumnSpan="2" Height="50" Margin="0.2,0,132.4,0" Grid.RowSpan="2" VerticalAlignment="Top" TextChanged="rowTextBox_TextChanged"/>
-			<TextBox x:Name="columnTextBox" Grid.Row="1" Grid.Column="1" Background="#FFEDEAEA" TextChanged="columnTextBox_TextChanged"/>
-			<Button x:Name="playButton" Content="Play" Grid.Column="4" HorizontalAlignment="Left" Margin="28.6,13,0,0" VerticalAlignment="Top" Width="76" Click="playButton_Click"/>
+			<Button x:Name="gridButton" Visibility="Hidden" Grid.Column="2" Content="Create Grid" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="31.4,35,0,0" Grid.RowSpan="2" Height="29" Click="gridButton_Click"/>
+			<Label x:Name="rowLabel" Visibility="Hidden" Content="Number of Rows" Grid.Row ="0" Grid.Column="0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+			<Label x:Name="columnLabel" Visibility="Hidden" Content="Number of Columns" Grid.Row="1" Grid.Column="0"/>
+			<TextBox x:Name="rowTextBox" Visibility="Hidden" Grid.Row="0" Grid.Column="1" Background="#FFEDEAEA" Height="32" Margin="0.2,8,69.6,0" VerticalAlignment="Top" TextChanged="rowTextBox_TextChanged"/>
+			<TextBox x:Name="columnTextBox" Visibility="Hidden" Grid.Row="1" Grid.Column="1" Background="#FFEDEAEA" TextChanged="columnTextBox_TextChanged" Margin="0.2,10.4,69.6,10.2"/>
+			<Button x:Name="playButton" Content="▶️" Grid.Column="4" HorizontalAlignment="Left" Margin="38.6,10,0,0" VerticalAlignment="Top" Width="63" Click="playButton_Click" Height="35" FontSize="24"/>
 			<ComboBox x:Name="shapeComboBox" Grid.ColumnSpan="2" Grid.Column="7" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Width="245" SelectionChanged="shapeComboBox_SelectionChanged"/>
+			<Button x:Name="changeGridSizeButton" HorizontalAlignment="Left" Margin="10,-88,0,0" VerticalAlignment="Top" Width="113" Height="24" Click="changeGridSizeButton_Click" Content="Change Grid Size"/>
+			<Slider x:Name="speedSlider" Grid.Column="4" HorizontalAlignment="Left" Margin="49.6,13.4,0,-2.8" Grid.Row="1" VerticalAlignment="Top" Height="39" Width="100" Minimum="-1800" Maximum="-300" ValueChanged="Slider_ValueChanged" Value="-1000" Grid.ColumnSpan="2"/>
+			<Button x:Name="pauseButton" Content="▌  ▌" Grid.Column="3" HorizontalAlignment="Left" Margin="31.6,10,0,0" VerticalAlignment="Top" Width="63" Height="35" Click="pauseButton_Click"/>
+			<Button x:Name="stopButton" Content="◼" Grid.Column="5" HorizontalAlignment="Left" Margin="38.8,10,0,0" VerticalAlignment="Top" Width="63" Height="35" FontSize="24" Click="stopButton_Click"/>
+			<Label Content="Speed: " Grid.Column="3" HorizontalAlignment="Left" Margin="121.6,10.4,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+			<Label Content="Pattern:" Grid.Column="6" HorizontalAlignment="Left" Margin="82.8,13,0,0" VerticalAlignment="Top"/>
 
 		</Grid>
 		<Grid x:Name="DynamicGrid" Height="553" Margin="10,10,0,10"/>

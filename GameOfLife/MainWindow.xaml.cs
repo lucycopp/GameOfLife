@@ -26,11 +26,28 @@ namespace GameOfLife
         int numberOfColumns;
         List<Cell> cells = new List<Cell>();
         Timer mTimer;
+        Dictionary<int, string> shapes = new Dictionary<int, string>();
         public MainWindow()
         {
             InitializeComponent();
             DynamicGrid.ShowGridLines = true;
-            CreateDynamicWPFGrid(60, 30);
+            CreateDynamicWPFGrid(60, 30); //default grid
+            
+            shapes.Add(0, "Custom");
+            shapes.Add(1, "The Block - Still Life");
+            shapes.Add(2, "The Boat - Still Life");
+            shapes.Add(3, "The Loaf - Still Life");
+            shapes.Add(4, "The Beehive - Still Life");
+            shapes.Add(5, "The Blinker - Oscillator");
+            shapes.Add(6, "The Beacon - Oscillator");
+            shapes.Add(7, "The Toad - Oscillator");
+            shapes.Add(8, "The Pulsar - Oscillator");
+            shapes.Add(9, "Glider");
+            shapes.Add(10, "Exploder");
+            shapes.Add(11, "Spaceship");
+
+            shapeComboBox.ItemsSource = shapes.Values;
+
 
         }
 
@@ -201,6 +218,202 @@ namespace GameOfLife
         {
             if (columnTextBox.Text != "")
                 rowTextBox.Text = Math.Ceiling(Convert.ToDouble(columnTextBox.Text) / 2).ToString();
+        }
+
+        private void clearAllGrid()
+        {
+            foreach (Cell c in cells)
+            {
+                if (c.Alive)
+                    c.changeCellToDead();
+            }
+                
+        }
+
+        private void shapeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            clearAllGrid();
+            //get middle column
+            int middleColumn = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(numberOfColumns / 2)));
+            int middleRow = Convert.ToInt16(Math.Ceiling(Convert.ToDouble(numberOfRows / 2)));
+            if (shapeComboBox.SelectedIndex == 1)
+            {
+                //the block
+                int leftColumn = middleColumn - 1;
+                int bottomRow = middleRow + 1;
+
+                findCell(middleRow, middleColumn).changeCellToAlive();
+                findCell(middleRow, leftColumn).changeCellToAlive();
+                findCell(bottomRow, leftColumn).changeCellToAlive();
+                findCell(bottomRow, middleColumn).changeCellToAlive();
+            } else if (shapeComboBox.SelectedIndex == 2)
+            {
+                //the boat
+                int leftColumn = middleColumn - 1;
+                int rightColumn = middleColumn + 1;
+                int topRow = middleRow - 1;
+                int bottomRow = middleRow + 1;
+
+                findCell(topRow, middleColumn).changeCellToAlive();
+                findCell(topRow, leftColumn).changeCellToAlive();
+                findCell(middleRow, leftColumn).changeCellToAlive();
+                findCell(bottomRow, middleColumn).changeCellToAlive();
+                findCell(middleRow, rightColumn).changeCellToAlive();
+            } else if (shapeComboBox.SelectedIndex == 3)
+            {
+                int leftColumn = middleColumn - 1;
+                int leftLeftColumn = middleColumn - 2;
+                int rightColumn = middleColumn + 1;
+                int topRow = middleRow - 1;
+                int bottomRow = middleRow + 1;
+                int bottomBottomRow = middleRow + 2;
+
+                findCell(middleRow, rightColumn).changeCellToAlive();
+                findCell(bottomRow, rightColumn).changeCellToAlive();
+                findCell(bottomBottomRow, middleColumn).changeCellToAlive();
+                findCell(bottomRow, leftColumn).changeCellToAlive();
+                findCell(middleRow, leftLeftColumn).changeCellToAlive();
+                findCell(topRow, leftColumn).changeCellToAlive();
+                findCell(topRow, middleColumn).changeCellToAlive();
+            } else if (shapeComboBox.SelectedIndex == 4)
+            {
+                int leftColumn = middleColumn - 1;
+                int leftLeftColumn = middleColumn - 2;
+                int rightColumn = middleColumn + 1;
+                int topRow = middleRow - 1;
+                int bottomRow = middleRow + 1;
+
+                findCell(middleRow, leftLeftColumn).changeCellToAlive();
+                findCell(topRow, leftColumn).changeCellToAlive();
+                findCell(topRow, middleColumn).changeCellToAlive();
+                findCell(middleRow, rightColumn).changeCellToAlive();
+                findCell(bottomRow, middleColumn).changeCellToAlive();
+                findCell(bottomRow, leftColumn).changeCellToAlive();
+            } else if(shapeComboBox.SelectedIndex == 5)
+            {
+                int leftColumn = middleColumn - 1;
+                int rightColumn = middleColumn + 1;
+
+                findCell(middleRow, leftColumn).changeCellToAlive();
+                findCell(middleRow, middleColumn).changeCellToAlive();
+                findCell(middleRow, rightColumn).changeCellToAlive();
+            } else if (shapeComboBox.SelectedIndex == 6)
+            {
+                int leftColumn = middleColumn - 1;
+                int leftLeftColumn = middleColumn - 2;
+                int rightColumn = middleColumn + 1;
+                int topRow = middleRow - 1;
+                int topTopRow = middleRow - 2;
+                int bottomRow = middleRow + 1;
+
+                findCell(topTopRow, leftLeftColumn).changeCellToAlive();
+                findCell(topTopRow, leftColumn).changeCellToAlive();
+                findCell(topRow, leftLeftColumn).changeCellToAlive();
+                findCell(middleRow, rightColumn).changeCellToAlive();
+                findCell(bottomRow, rightColumn).changeCellToAlive();
+                findCell(bottomRow, middleColumn).changeCellToAlive();
+
+            } else if (shapeComboBox.SelectedIndex == 7)
+            {
+                //toad
+                int leftColumn = middleColumn - 1;
+                int leftLeftColumn = middleColumn - 2;
+                int rightColumn = middleColumn + 1;
+                int bottomRow = middleRow + 1;
+
+                findCell(bottomRow, leftLeftColumn).changeCellToAlive();
+                findCell(bottomRow, leftColumn).changeCellToAlive();
+                findCell(middleRow, leftColumn).changeCellToAlive();
+                findCell(middleRow, middleColumn).changeCellToAlive();
+                findCell(bottomRow, middleColumn).changeCellToAlive();
+                findCell(middleRow, rightColumn).changeCellToAlive();
+            } else if (shapeComboBox.SelectedIndex == 8)
+            { //pulsar
+                int rightColumn = middleColumn + 1;
+                int rightColumn2 = middleColumn + 2;
+                int rightColumn3 = middleColumn + 3;
+                int rightColumn4 = middleColumn + 4;
+                int rightColumn6 = middleColumn + 6;
+
+                int leftColumn = middleColumn - 1;
+                int leftColumn2 = middleColumn - 2;
+                int leftColumn3 = middleColumn - 3;
+                int leftColumn4 = middleColumn - 4;
+                int leftColumn6 = middleColumn - 6;
+
+                int topRow = middleRow - 1;
+                int topRow2 = middleRow - 2;
+                int topRow3 = middleRow - 3;
+                int topRow4 = middleRow - 4;
+                int topRow5 = middleRow - 5;
+                int topRow6 = middleRow - 6;
+
+                int bottomRow = middleRow + 1;
+                int bottomRow2 = middleRow + 2;
+                int bottomRow3 = middleRow + 3;
+                int bottomRow4 = middleRow + 4;
+                int bottomRow5 = middleRow + 5;
+                int bottomRow6 = middleRow + 6;
+
+                findCell(topRow2,rightColumn).changeCellToAlive();
+                findCell(topRow3, rightColumn).changeCellToAlive();
+                findCell(topRow4,rightColumn).changeCellToAlive();
+                findCell(bottomRow2,rightColumn).changeCellToAlive();
+                findCell( bottomRow3, rightColumn).changeCellToAlive();
+                findCell(bottomRow4, rightColumn).changeCellToAlive();
+
+                findCell(topRow2, leftColumn).changeCellToAlive();
+                findCell( topRow3, leftColumn).changeCellToAlive();
+                findCell(topRow4, leftColumn).changeCellToAlive();
+                findCell( bottomRow2, leftColumn).changeCellToAlive();
+                findCell( bottomRow3,leftColumn).changeCellToAlive();
+                findCell(bottomRow4,leftColumn).changeCellToAlive();
+
+                findCell(topRow6,leftColumn2).changeCellToAlive();
+                findCell(topRow6,leftColumn3).changeCellToAlive();
+                findCell(topRow6,leftColumn4).changeCellToAlive();
+                findCell(topRow,leftColumn2).changeCellToAlive();
+                findCell(topRow,leftColumn3).changeCellToAlive();
+                findCell(topRow,leftColumn4).changeCellToAlive();
+                findCell(bottomRow,leftColumn2).changeCellToAlive();
+                findCell(bottomRow,leftColumn3).changeCellToAlive();
+                findCell(bottomRow,leftColumn4).changeCellToAlive();
+                findCell(bottomRow6,leftColumn2).changeCellToAlive();
+                findCell(bottomRow6,leftColumn3).changeCellToAlive();
+                findCell(bottomRow6,leftColumn4).changeCellToAlive();
+
+                findCell(topRow6, rightColumn2).changeCellToAlive();
+                findCell(topRow6, rightColumn3).changeCellToAlive();
+                findCell(topRow6, rightColumn4).changeCellToAlive();
+                findCell(topRow, rightColumn2).changeCellToAlive();
+                findCell(topRow2, leftColumn6).changeCellToAlive();
+                findCell(topRow3, leftColumn6).changeCellToAlive();
+                findCell(topRow4, leftColumn6).changeCellToAlive();
+                findCell(bottomRow2, leftColumn6).changeCellToAlive();
+                findCell(bottomRow3, leftColumn6).changeCellToAlive();
+                findCell(bottomRow4, leftColumn6).changeCellToAlive();
+                findCell(topRow, rightColumn3).changeCellToAlive();
+                findCell(topRow, rightColumn4).changeCellToAlive();
+                findCell(bottomRow, rightColumn2).changeCellToAlive();
+                findCell(bottomRow, rightColumn3).changeCellToAlive();
+                findCell(bottomRow, rightColumn4).changeCellToAlive();
+                findCell(bottomRow6, rightColumn2).changeCellToAlive();
+                findCell(bottomRow6, rightColumn3).changeCellToAlive();
+                findCell(bottomRow6, rightColumn4).changeCellToAlive();
+
+                findCell(topRow2, rightColumn6).changeCellToAlive();
+                findCell(topRow3, rightColumn6).changeCellToAlive();
+                findCell(topRow4, rightColumn6).changeCellToAlive();
+                findCell(bottomRow2, rightColumn6).changeCellToAlive();
+                findCell(bottomRow3, rightColumn6).changeCellToAlive();
+                findCell(bottomRow4, rightColumn6).changeCellToAlive();
+
+               
+
+
+
+            }
+            
         }
     }
 

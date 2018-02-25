@@ -37,6 +37,7 @@
 			<TextBox x:Name="rowTextBox" Grid.Row="0" Grid.Column="1" Background="#FFEDEAEA" Grid.ColumnSpan="2" Height="50" Margin="0.2,0,132.4,0" Grid.RowSpan="2" VerticalAlignment="Top" TextChanged="rowTextBox_TextChanged"/>
 			<TextBox x:Name="columnTextBox" Grid.Row="1" Grid.Column="1" Background="#FFEDEAEA" TextChanged="columnTextBox_TextChanged"/>
 			<Button x:Name="playButton" Content="Play" Grid.Column="4" HorizontalAlignment="Left" Margin="28.6,13,0,0" VerticalAlignment="Top" Width="76" Click="playButton_Click"/>
+			<ComboBox x:Name="shapeComboBox" Grid.ColumnSpan="2" Grid.Column="7" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Width="245" SelectionChanged="shapeComboBox_SelectionChanged"/>
 
 		</Grid>
 		<Grid x:Name="DynamicGrid" Height="553" Margin="10,10,0,10"/>

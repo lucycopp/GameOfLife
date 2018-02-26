@@ -139,23 +139,28 @@ namespace GameOfLife
         /// <param name="e"></param>
         private void gridButton_Click(object sender, RoutedEventArgs e)
         {
-            numberOfRows = Convert.ToInt16(rowTextBox.Text);
-            numberOfColumns = Convert.ToInt16(columnTextBox.Text); //get inputted rows and columns from UI
-
-            if(numberOfRows < 12)
+            try
             {
-                MessageBox.Show("Please make grid greater than 12 rows");
-            } else
-            {
-                changeGridSizeButton.Visibility = Visibility.Visible;
-                rowLabel.Visibility = Visibility.Hidden;
-                columnLabel.Visibility = Visibility.Hidden;
-                rowTextBox.Visibility = Visibility.Hidden;
-                columnTextBox.Visibility = Visibility.Hidden;
-                gridButton.Visibility = Visibility.Hidden; //hide text boxes and display create grid button
+                numberOfRows = Convert.ToInt16(rowTextBox.Text);
+                numberOfColumns = Convert.ToInt16(columnTextBox.Text); //get inputted rows and columns from UI
 
-                CreateDynamicWPFGrid(numberOfColumns, numberOfRows); //create grid from user input
+                if (numberOfRows < 12)
+                {
+                    MessageBox.Show("Please make grid greater than 13 rows");
+                }
+                else
+                {
+                    changeGridSizeButton.Visibility = Visibility.Visible;
+                    rowLabel.Visibility = Visibility.Hidden;
+                    columnLabel.Visibility = Visibility.Hidden;
+                    rowTextBox.Visibility = Visibility.Hidden;
+                    columnTextBox.Visibility = Visibility.Hidden;
+                    gridButton.Visibility = Visibility.Hidden; //hide text boxes and display create grid button
+
+                    CreateDynamicWPFGrid(numberOfColumns, numberOfRows); //create grid from user input
+                }
             }
+            catch { MessageBox.Show("Only numeric values should be entered"); } //in case other type of value has been inputted
             
         }
 
@@ -288,8 +293,12 @@ namespace GameOfLife
         /// <param name="e"></param>
         private void rowTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(rowTextBox.Text != "")
-                columnTextBox.Text = Math.Ceiling(Convert.ToDouble(rowTextBox.Text) * 2).ToString(); //column needs to be double amount of rows to keep square grid aesthetic
+            try
+            {
+                if (rowTextBox.Text != "")
+                    columnTextBox.Text = Math.Ceiling(Convert.ToDouble(rowTextBox.Text) * 2).ToString(); //column needs to be double amount of rows to keep square grid aesthetic
+            }
+            catch { MessageBox.Show("Please only enter numeric value into row text box"); rowTextBox.Text = ""; }
         }
 
         /// <summary>
@@ -299,8 +308,12 @@ namespace GameOfLife
         /// <param name="e"></param>
         private void columnTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (columnTextBox.Text != "")
-                rowTextBox.Text = Math.Ceiling(Convert.ToDouble(columnTextBox.Text) / 2).ToString(); //rows must be half the amount of columns to keep square grid aesthetic
+            try
+            {
+                if (columnTextBox.Text != "")
+                    rowTextBox.Text = Math.Ceiling(Convert.ToDouble(columnTextBox.Text) / 2).ToString(); //rows must be half the amount of columns to keep square grid aesthetic
+            }
+            catch { MessageBox.Show("Please only enter numeric values into column text box"); columnTextBox.Text = ""; }
         }
 
         /// <summary>
